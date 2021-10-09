@@ -105,4 +105,4 @@ const createAd = function (index) {
 const mockData = new Array(10).fill('').map((__, index) => createAd(index));
 
 mockData;
-console.log(mockData);
+// console.log(mockData);
