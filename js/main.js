@@ -63,11 +63,27 @@ const getRandomArrayElement = function (elements) {
   return elements[_.random(0, elements.length - 1)];
 };
 
+
+// const createAuthor = function (index) {
+//   if (index < 10) {
+//     return {
+//       avatar: `img/avatars/user0${index}.png`,
+//     };
+//   } else {
+//     return {
+//       avatar: `img/avatars/user${index}.png`,
+//     };
+//   }
+// };
+
 const createAuthor = function (index) {
-  return {
-    avatar: `img/avatars/user${index}.png`,
+  const avatarNumber = index < 10 ? `img/avatars/user0${index}.png` : `img/avatars/user${index}.png`;
+    return {
+      avatar: avatarNumber,
+    };
   };
-};
+
+
 
 const getRandomLocation = function () {
   return {
@@ -105,4 +121,4 @@ const createAd = function (index) {
 const mockData = new Array(10).fill('').map((__, index) => createAd(index));
 
 mockData;
-// console.log(mockData);
+console.log(mockData);
