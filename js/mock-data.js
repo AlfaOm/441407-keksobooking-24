@@ -62,10 +62,6 @@ const createAd = (index) => ({
   location: getRandomLocation(),
 });
 
-const getMockAds = function (numberObject) {
+export const getMockAds = function (numberObject) {
   return new Array(numberObject).fill('').map((__, index) => createAd(index));
 };
-
-
-export {TITLE, TYPE, CHECKIN, CHECKOUT, FEATURES, DESCRIPTION, PHOTOS, createAuthor, getRandomLocation, createOffer, getMockAds};
-
