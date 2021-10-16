@@ -13,5 +13,5 @@ export const getRandomFloat = function (min, max, fraction = 1) {
 };
 
 export const getRandomArrayElement = function (elements) {
-  return elements[getRandomInteger(0, elements.length - 1)];
+  return elements[_.random(0, elements.length - 1)];
 };
