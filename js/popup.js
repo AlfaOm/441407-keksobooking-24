@@ -25,4 +25,4 @@ cardNotice.forEach((value) => {
   noticeElement.querySelector('.popup__avatar').src = value.author.avatar;
   blockNotice.appendChild(noticeElement);
 });
-// .textContent = value.offer.features
+
