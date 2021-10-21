@@ -24,7 +24,7 @@ const PHOTOS = [
 ];
 
 
-const createAuthor = function (index) {
+const createAuthor = (index) => {
   const avatarNumber = index < 10 ? `0${index}` : index;
   return {
     avatar: `img/avatars/user${avatarNumber}.png`,
@@ -43,16 +43,16 @@ const getRandomLocation = function () {
 const createOffer = function () {
   return {
     title: getRandomArrayElement(TITLE),
-    address: getRandomLocation(),
-    price: getRandomInteger(100, 1500),
+    address: `${getRandomLocation().lat} - ${getRandomLocation().lng}`,
+    price: getRandomInteger(1000, 15000),
     type: getRandomArrayElement(TYPE),
     rooms: getRandomInteger(1, 5),
     guests: getRandomInteger(1, 5),
     checkin: getRandomArrayElement(CHECKIN),
     checkout: getRandomArrayElement(CHECKOUT),
-    features: getRandomArrayElement(FEATURES),
+    features: [getRandomArrayElement(FEATURES)],
     description: getRandomArrayElement(DESCRIPTION),
-    photos: getRandomArrayElement(PHOTOS),
+    photos: [getRandomArrayElement(PHOTOS), getRandomArrayElement(PHOTOS), getRandomArrayElement(PHOTOS)],
   };
 };
 
