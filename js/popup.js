@@ -4,8 +4,6 @@ const dataNotice = document.querySelector('.map');
 
 const blockNotice = dataNotice.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-// const photosContainer = cardTemplate.querySelector('.popup__photos');
-// const photosFragment = document.createDocumentFragment();
 
 
 const TYPE_NAME = {
@@ -15,43 +13,6 @@ const TYPE_NAME = {
   palace: 'Дворец',
   hotel: 'Отель',
 };
-
-// const featureFragment = document.createDocumentFragment();
-
-// offer.features.forEach((offerFeatures) => {
-//   const featureListItem = featureContainer.querySelector(`.popup__feature--${offerFeatures}`);
-
-//   if (featureListItem) {
-//     featureFragment.append(featureListItem);
-//   }
-// });
-
-// featureContainer.innerHTML = '';
-// featureContainer.append(featureFragment);
-
-// const createFeatureFragment = function (value) {
-//   value.offer.features.forEach((offerFeature) => {
-//     const featureListItem = document.createElement('li');
-
-//     featureListItem.classList.add('popup__feature');
-//     featureListItem.classList.add(`popup__feature--${offerFeature}`);
-
-//     featureFragment.appendChild(featureListItem);
-//   });
-//   return featureFragment;
-// };
-
-// const getPhotos = (offerPhoto, offer) => {
-//   offer.photos.forEach((userPhotos) => {
-//     const photoElement = document.createElement('img');
-//     photoElement.classList.add('popup__photo');
-//     photoElement.src = userPhotos;
-//     photoElement.width = 45;
-//     photoElement.height = 40;
-//     photoElement.alt = 'Фотография жилья';
-//     offerPhoto.querySelector('.popup__photos').appendChild(photoElement);
-//   });
-// };
 
 
 const fillNoticeElement = ({offer, author}) => {

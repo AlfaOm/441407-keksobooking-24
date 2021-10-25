@@ -6,4 +6,6 @@ const data = getMockAds(10);
 window.console.log(data);
 
 import {drawNotices} from './popup.js';
-drawNotices(getMockAds(10));
+drawNotices(getMockAds(1));
+
+import './form.js';
