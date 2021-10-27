@@ -11,32 +11,59 @@ const MIN_PRICE = {
 
 
 const formNotice = document.querySelector('.ad-form');
-// const formFilters = document.querySelector('.map__filters');
-// const allFieldset = formNotice.getElementsByTagName('fieldset');
+const formFilters = document.querySelector('.map__filters');
+const allFieldset = formNotice.getElementsByTagName('fieldset');
 const noticeTitleInput = formNotice.querySelector('#title');
 const quantityRoom = formNotice.querySelector('#room_number');
 const quantityCapacity = formNotice.querySelector('#capacity');
 const typeHabitation = formNotice.querySelector('#type');
 const priceInput = formNotice.querySelector('#price');
-// const timeIn = formNotice.querySelector('#timein');
-// const timeOut = formNotice.querySelector('#timeout');
+const timeIn = formNotice.querySelector('#timein');
+const timeOut = formNotice.querySelector('#timeout');
+
+
+// Неактивное состояние форм
+const addBlockForm = () => {
+  formNotice.classList.add('ad-form--disabled');
+  formFilters.classList.add('ad-form--disabled');
+  allFieldset.forEach((element) => {
+    element.disabled = true;
+  });
+};
+addBlockForm();
+
+// Активация форм
+const removeBlockForm = () => {
+  formNotice.classList.remove('ad-form--disabled');
+  formFilters.classList.remove('ad-form--disabled');
+  allFieldset.forEach((element) => {
+    element.disabled = false;
+  });
+};
+removeBlockForm();
+
+// Неактивное состояние форм
+// const addBlockForm = () => {
+//   formNotice.classList.add('ad-form--disabled');
+//   formFilters.classList.add('ad-form--disabled');
+//   for (let i = 0; i < allFieldset.length; i++) {
+//     allFieldset[i].disabled = true;
+//   }
+// };
+// addBlockForm();
+
+// // Активация форм
+// const removeBlockForm = () => {
+//   formNotice.classList.remove('ad-form--disabled');
+//   formFilters.classList.remove('ad-form--disabled');
+//   for (let i = 0; i < allFieldset.length; i++) {
+//     allFieldset[i].disabled = false;
+//   }
+// };
+// removeBlockForm();
 
 
 // Валидация заголовка объявления
-// 1 вариант
-// noticeTitleInput.addEventListener('invalid', () => {
-//   if (noticeTitleInput.validity.tooShort) {
-//     noticeTitleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
-//   } else if (noticeTitleInput.validity.tooLong) {
-//     noticeTitleInput.setCustomValidity('Заголовок не должен превышать 100 символов');
-//   } else if (noticeTitleInput.validity.valueMissing) {
-//     noticeTitleInput.setCustomValidity('Обязательное поле!');
-//   } else {
-//     noticeTitleInput.setCustomValidity('');
-//   }
-// });
-
-// 2 вариант
 noticeTitleInput.addEventListener('input', () => {
   const valueLength = noticeTitleInput.value.length;
 
@@ -69,30 +96,18 @@ quantityRoom.addEventListener('change', (evt) => {
 
 // Валидация цены за ночь по типу жилья
 
-// export const getMinPrice = () => {
-//   const indexType = typeHabitation.selectedIndex;
-
-//   if (indexType === 0) {
-//     priceInput.placeholder = '0';
-//   }
-//   if (indexType === 1) {
-//     priceInput.placeholder = '1000';
-//   }
-//   if (indexType === 2) {
-//     priceInput.placeholder = '3000';
-//   }
-//   if (indexType === 3) {
-//     priceInput.placeholder = '5000';
-//   }
-//   if (indexType === 4) {
-//     priceInput.placeholder = '10000';
-//   }
-// };
-// typeHabitation.addEventListener('change', getMinPrice);
-
-
 typeHabitation.addEventListener('change', (evt) => {
   const minPrice = MIN_PRICE[evt.target.value];
   priceInput.min = minPrice;
   priceInput.placeholder = minPrice.toString();
+});
+
+
+// Синхронизация времени заезда и выезда
+timeIn.addEventListener('change', (evt) => {
+  timeOut.value = evt.target.value;
+});
+
+timeOut.addEventListener('change', (evt) => {
+  timeIn.value = evt.target.value;
 });
