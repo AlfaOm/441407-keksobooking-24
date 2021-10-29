@@ -1,4 +1,3 @@
-// import {getMockAds} from './mock-data.js';
 
 const dataNotice = document.querySelector('.map');
 

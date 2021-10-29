@@ -12,7 +12,7 @@ const MIN_PRICE = {
 
 const formNotice = document.querySelector('.ad-form');
 const formFilters = document.querySelector('.map__filters');
-const allFieldset = formNotice.getElementsByTagName('fieldset');
+const allFieldset = [formNotice.getElementsByTagName('fieldset')];
 const noticeTitleInput = formNotice.querySelector('#title');
 const quantityRoom = formNotice.querySelector('#room_number');
 const quantityCapacity = formNotice.querySelector('#capacity');
@@ -33,33 +33,13 @@ const addBlockForm = () => {
 addBlockForm();
 
 // Активация форм
-const removeBlockForm = () => {
+export const removeBlockForm = () => {
   formNotice.classList.remove('ad-form--disabled');
   formFilters.classList.remove('ad-form--disabled');
   allFieldset.forEach((element) => {
     element.disabled = false;
   });
 };
-removeBlockForm();
-
-// Неактивное состояние форм
-// const addBlockForm = () => {
-//   formNotice.classList.add('ad-form--disabled');
-//   formFilters.classList.add('ad-form--disabled');
-//   for (let i = 0; i < allFieldset.length; i++) {
-//     allFieldset[i].disabled = true;
-//   }
-// };
-// addBlockForm();
-
-// // Активация форм
-// const removeBlockForm = () => {
-//   formNotice.classList.remove('ad-form--disabled');
-//   formFilters.classList.remove('ad-form--disabled');
-//   for (let i = 0; i < allFieldset.length; i++) {
-//     allFieldset[i].disabled = false;
-//   }
-// };
 // removeBlockForm();
 
 
@@ -95,7 +75,6 @@ quantityRoom.addEventListener('change', (evt) => {
 
 
 // Валидация цены за ночь по типу жилья
-
 typeHabitation.addEventListener('change', (evt) => {
   const minPrice = MIN_PRICE[evt.target.value];
   priceInput.min = minPrice;
