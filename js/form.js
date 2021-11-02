@@ -1,3 +1,5 @@
+import { sendData } from './api.js';
+import {showMessageError} from './utils.js';
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -21,11 +23,14 @@ const priceInput = formNotice.querySelector('#price');
 const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
 
+//запрет на ручное редактирование поля адрес
+formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
+
 
 // Неактивное состояние форм
 const addBlockForm = () => {
   formNotice.classList.add('ad-form--disabled');
-  formFilters.classList.add('ad-form--disabled');
+  formFilters.classList.add('map__filters--disabled');
   allFieldset.forEach((element) => {
     element.disabled = true;
   });
@@ -35,12 +40,11 @@ addBlockForm();
 // Активация форм
 export const removeBlockForm = () => {
   formNotice.classList.remove('ad-form--disabled');
-  formFilters.classList.remove('ad-form--disabled');
+  // formFilters.classList.remove('map__filters--disabled');
   allFieldset.forEach((element) => {
     element.disabled = false;
   });
 };
-// removeBlockForm();
 
 
 // Валидация заголовка объявления
@@ -90,3 +94,17 @@ timeIn.addEventListener('change', (evt) => {
 timeOut.addEventListener('change', (evt) => {
   timeIn.value = evt.target.value;
 });
+
+const setFormSubmit = (onSuccess) => {
+  formNotice.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      () => showMessageError(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {setFormSubmit};

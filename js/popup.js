@@ -14,7 +14,7 @@ const TYPE_NAME = {
 };
 
 
-const fillNoticeElement = ({offer, author}) => {
+export const fillNoticeElement = ({offer, author}) => {
   const noticeElement = cardTemplate.cloneNode(true);
 
   noticeElement.querySelector('.popup__title').textContent = offer.title;
@@ -31,7 +31,7 @@ const fillNoticeElement = ({offer, author}) => {
   noticeElement.querySelector('.popup__photos').innerHTML = '';
   noticeElement.querySelector('.popup__photos').innerHTML = offer.photos.map((photo) => (
     `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья"></img>`
-  )).join('');
+  ));
   noticeElement.querySelector('.popup__avatar').src = author.avatar;
 
   return noticeElement;

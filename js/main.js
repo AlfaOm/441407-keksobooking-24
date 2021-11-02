@@ -1,10 +1,15 @@
 
-import {getMockAds} from './mock-data.js';
 import {drawNotices} from './popup.js';
-import './form.js';
 import './map.js';
+// import {renderMarkers} from './map.js';
+import {showMessageSuccess} from './utils.js';
+import {getData} from './api.js';
+import {setFormSubmit} from './form.js';
 
-const data = getMockAds(10);
-window.console.log(data);
+const NOTICE_COUNT = 10;
+getData((notices) => {
+  drawNotices(notices.slice(0, NOTICE_COUNT));
+});
 
-drawNotices(getMockAds(1));
+// renderMarkers(drawNotices());
+setFormSubmit(showMessageSuccess);

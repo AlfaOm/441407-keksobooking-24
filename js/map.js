@@ -1,4 +1,5 @@
 import {removeBlockForm} from './form.js';
+import {drawNotices} from './popup.js';
 
 const address = document.querySelector('#address');
 
@@ -12,6 +13,7 @@ const map = L.map('map-canvas')
     lng: 139.69171,
   }, 10);
 
+
 // Отображение карты
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -22,7 +24,7 @@ L.tileLayer(
 
 // Отображение основной метки
 const mainPinIcon = L.icon ({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
@@ -44,17 +46,16 @@ mainPinMarker.addTo(map);
 
 // Обработчик событий метки. Возвращает новые координаты
 mainPinMarker.on('moveend', (evt) => {
-  window.console.log(evt.target.getLatLng());
   address.value = evt.target.getLatLng();
 });
 
 
 // Возвращает метку и карту к исходному состоянию
 window.addEventListener('click', () => {
-  mainPinMarker.setLatLng({
-    lat: 35.68950,
-    lng: 139.69171,
-  });
+  // mainPinMarker.setLatLng({
+  //   lat: 35.68950,
+  //   lng: 139.69171,
+  // });
 
   map.setView({
     lat: 35.68950,
@@ -86,7 +87,7 @@ const location = [
 // Показ балуна
 location.forEach(({lat, lng, title}) => {
   const icon = L.icon ({
-    iconUrl: '../img/pin.svg',
+    iconUrl: 'img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
@@ -105,3 +106,30 @@ location.forEach(({lat, lng, title}) => {
     .addTo(map)
     .bindPopup(title);
 });
+
+
+const renderMarkers = (data) => {
+  data.forEach((ad, lat, lng) => {
+    // const lat = advertisements[i].location.lat;
+    // const lng = advertisements[i].location.lng;
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon,
+      },
+    );
+    marker
+      .addTo(map)
+      .bindPopup(drawNotices(ad));
+  });
+};
+
+export {renderMarkers};

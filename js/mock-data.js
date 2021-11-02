@@ -32,7 +32,7 @@ const createAuthor = (index) => {
 };
 
 
-export const getRandomLocation = function () {
+const getRandomLocation = function () {
   return {
     lat: getRandomFloat(35.65000, 35.70000, 5),
     lng: getRandomFloat(139.70000, 139.80000, 5),
@@ -43,7 +43,7 @@ export const getRandomLocation = function () {
 const createOffer = function () {
   return {
     title: getRandomArrayElement(TITLE),
-    address: `${getRandomLocation().lat} - ${getRandomLocation().lng}`,
+    address: `${getRandomLocation().lat}, ${getRandomLocation().lng}`,
     price: getRandomInteger(1000, 15000),
     type: getRandomArrayElement(TYPE),
     rooms: getRandomInteger(1, 5),
