@@ -1,7 +1,8 @@
+import {renderMarkers} from './map.js';
 
-const dataNotice = document.querySelector('.map');
+// const dataNotice = document.querySelector('.map');
 
-const blockNotice = dataNotice.querySelector('#map-canvas');
+// const blockNotice = dataNotice.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 
@@ -38,8 +39,14 @@ export const fillNoticeElement = ({offer, author}) => {
 };
 
 
-export const drawNotices = (data) => {
-  data.forEach((item) => {
-    blockNotice.appendChild(fillNoticeElement(item));
+// export const drawNotices = (data) => {
+//   data.forEach((item) => {
+//     blockNotice.appendChild(fillNoticeElement(item));
+//   });
+// };
+
+export const drawNotices = (advertisements) => {
+  advertisements.forEach((item) => {
+    renderMarkers(item);
   });
 };

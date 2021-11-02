@@ -109,7 +109,7 @@ location.forEach(({lat, lng, title}) => {
 
 
 const renderMarkers = (data) => {
-  data.forEach((ad, lat, lng) => {
+  data.forEach((ad) => {
     // const lat = advertisements[i].location.lat;
     // const lng = advertisements[i].location.lng;
     const icon = L.icon({
@@ -119,8 +119,8 @@ const renderMarkers = (data) => {
     });
     const marker = L.marker(
       {
-        lat,
-        lng,
+        // lat,
+        // lng,
       },
       {
         icon,
