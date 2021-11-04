@@ -1,5 +1,6 @@
-import { sendData } from './api.js';
-import {showMessageError} from './utils.js';
+
+import {returnMapPinStarting} from './map.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -22,6 +23,7 @@ const typeHabitation = formNotice.querySelector('#type');
 const priceInput = formNotice.querySelector('#price');
 const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
+const resetButton = formNotice.querySelector('.ad-form__reset');
 
 //запрет на ручное редактирование поля адрес
 formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
@@ -40,7 +42,7 @@ addBlockForm();
 // Активация форм
 export const removeBlockForm = () => {
   formNotice.classList.remove('ad-form--disabled');
-  // formFilters.classList.remove('map__filters--disabled');
+  formFilters.classList.remove('map__filters--disabled');
   allFieldset.forEach((element) => {
     element.disabled = false;
   });
@@ -95,16 +97,10 @@ timeOut.addEventListener('change', (evt) => {
   timeIn.value = evt.target.value;
 });
 
-const setFormSubmit = (onSuccess) => {
-  formNotice.addEventListener('submit', (evt) => {
-    evt.preventDefault();
 
-    sendData(
-      () => onSuccess(),
-      () => showMessageError(),
-      new FormData(evt.target),
-    );
-  });
-};
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  returnMapPinStarting();
+});
 
-export {setFormSubmit};
+export {formNotice};

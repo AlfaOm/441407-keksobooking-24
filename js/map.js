@@ -1,5 +1,10 @@
+
 import {removeBlockForm} from './form.js';
-import {drawNotices} from './popup.js';
+import {fillNoticeElement} from './popup.js';
+
+
+const DEFAULT_LAT_LOCATION = 35.68951;
+const DEFAULT_LNG_LOCATION = 139.69171;
 
 const address = document.querySelector('#address');
 
@@ -7,10 +12,11 @@ const address = document.querySelector('#address');
 const map = L.map('map-canvas')
   .on('load', () => {
     removeBlockForm(); // Активация форм при инициализации карты
+    address.value = `${DEFAULT_LAT_LOCATION}, ${DEFAULT_LNG_LOCATION}`;
   })
   .setView({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: DEFAULT_LAT_LOCATION,
+    lng: DEFAULT_LNG_LOCATION,
   }, 10);
 
 
@@ -33,8 +39,8 @@ const mainPinIcon = L.icon ({
 // Исходное состояние метки и возможность её перемещения
 const mainPinMarker = L.marker(
   {
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: DEFAULT_LAT_LOCATION,
+    lng: DEFAULT_LNG_LOCATION,
   },
   {
     draggable: true,
@@ -46,72 +52,37 @@ mainPinMarker.addTo(map);
 
 // Обработчик событий метки. Возвращает новые координаты
 mainPinMarker.on('moveend', (evt) => {
-  address.value = evt.target.getLatLng();
+  const mainPinLocation = evt.target.getLatLng();
+  address.value = `${mainPinLocation.lat.toFixed(5)}, ${mainPinLocation.lng.toFixed(5)}`;
 });
 
 
 // Возвращает метку и карту к исходному состоянию
-window.addEventListener('click', () => {
-  // mainPinMarker.setLatLng({
-  //   lat: 35.68950,
-  //   lng: 139.69171,
-  // });
+const returnMapPinStarting = () => {
+  mainPinMarker.setLatLng({
+    lat: DEFAULT_LAT_LOCATION,
+    lng: DEFAULT_LNG_LOCATION,
+  });
 
   map.setView({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: DEFAULT_LAT_LOCATION,
+    lng: DEFAULT_LNG_LOCATION,
   }, 10);
-});
 
-// Временно
-const location = [
-  {
-    title: 'Хонсю',
-    lat: 35.63950,
-    lng: 139.60160,
-  },
-  {
-    title: 'Хокайдо',
-    lat: 35.71893,
-    lng: 139.85150,
-  },
-  {
-    title: 'Фудзияма',
-    lat: 35.81893,
-    lng: 139.55150,
-  },
-];
+  address.value = `${DEFAULT_LAT_LOCATION}, ${DEFAULT_LNG_LOCATION}`;
+
+};
+
+const markerGroup = L.layerGroup().addTo(map);
 
 // Отображение меток объявлений
 // Их расположение на карте по полученным данным
 // Показ балуна
-location.forEach(({lat, lng, title}) => {
-  const icon = L.icon ({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const offerPinMarker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
-
-  offerPinMarker
-    .addTo(map)
-    .bindPopup(title);
-});
-
 
 const renderMarkers = (data) => {
-  data.forEach((ad) => {
-    // const lat = advertisements[i].location.lat;
-    // const lng = advertisements[i].location.lng;
+  data.forEach((offer) => {
+    const lat = offer.location.lat;
+    const lng = offer.location.lng;
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
       iconSize: [40, 40],
@@ -119,17 +90,17 @@ const renderMarkers = (data) => {
     });
     const marker = L.marker(
       {
-        // lat,
-        // lng,
+        lat,
+        lng,
       },
       {
         icon,
       },
     );
     marker
-      .addTo(map)
-      .bindPopup(drawNotices(ad));
+      .addTo(markerGroup)
+      .bindPopup(fillNoticeElement(offer));
   });
 };
 
-export {renderMarkers};
+export {renderMarkers, returnMapPinStarting};

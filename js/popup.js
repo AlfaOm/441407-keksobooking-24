@@ -1,4 +1,3 @@
-import {renderMarkers} from './map.js';
 
 // const dataNotice = document.querySelector('.map');
 
@@ -44,9 +43,3 @@ export const fillNoticeElement = ({offer, author}) => {
 //     blockNotice.appendChild(fillNoticeElement(item));
 //   });
 // };
-
-export const drawNotices = (advertisements) => {
-  advertisements.forEach((item) => {
-    renderMarkers(item);
-  });
-};
