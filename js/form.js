@@ -1,4 +1,4 @@
-
+import {sendData} from './api.js';
 import {returnMapPinStarting} from './map.js';
 
 const MIN_TITLE_LENGTH = 30;
@@ -15,7 +15,7 @@ const MIN_PRICE = {
 
 const formNotice = document.querySelector('.ad-form');
 const formFilters = document.querySelector('.map__filters');
-const allFieldset = [formNotice.getElementsByTagName('fieldset')];
+const allFieldset = Array.from(formNotice.getElementsByTagName('fieldset'));
 const noticeTitleInput = formNotice.querySelector('#title');
 const quantityRoom = formNotice.querySelector('#room_number');
 const quantityCapacity = formNotice.querySelector('#capacity');
@@ -27,6 +27,7 @@ const resetButton = formNotice.querySelector('.ad-form__reset');
 
 //запрет на ручное редактирование поля адрес
 formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
+// formNotice.querySelector('#address').readonly = true;  //не работает
 
 
 // Неактивное состояние форм
@@ -98,9 +99,23 @@ timeOut.addEventListener('change', (evt) => {
 });
 
 
+export const setFormSubmit = (onSuccess, onError) => {
+  formNotice.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    sendData(
+      () => onSuccess(),
+      () => onError(),
+      formData,
+      evt.target.reset(),
+      returnMapPinStarting(),
+    );
+  });
+};
+
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   returnMapPinStarting();
 });
 
-export {formNotice};

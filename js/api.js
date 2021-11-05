@@ -1,50 +1,39 @@
-import {showMessageError} from './utils.js';
-import {showMessageSuccess} from './utils.js';
-import {returnMapPinStarting} from './map.js';
-import {closeMessage} from './utils.js';
-import {formNotice} from './form.js';
+
+import {closeMessage} from './show-message.js';
+import {createMessageError} from './show-message.js';
 
 
-const getData = (onSuccess) => {
+export const getData = (onSuccess) => {
   fetch('https://24.javascript.pages.academy/keksobooking/data')
+    .then((responce) => {
+      if (responce.ok) {
+        return responce;
+      }
+      throw new Error(createMessageError('Не удалось загрузить данные с сервера!!!'));
+    })
     .then((response) => response.json())
     .then((notices) => {
       onSuccess(notices);
     });
 };
 
+export const sendData = (onSuccess, onError, body) => {
 
-const sendData = () => {
-  formNotice.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    const formData = new FormData(evt.target);
-    fetch(
-      'https://24.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then((responce) => {
-        if (responce.ok) {
-          showMessageSuccess();
-          returnMapPinStarting();
-          evt.target.reset(),
-          closeMessage(document.querySelector('.success'));
-        } else {
-          showMessageError();
-          closeMessage(document.querySelector('.error'));
-        }
-      })
-      .catch(() => {
-        showMessageError();
+  fetch('https://24.javascript.pages.academy/keksobooking', {
+    method: 'POST',
+    body,
+  })
+    .then((responce) => {
+      if (responce.ok) {
+        onSuccess();
+        closeMessage(document.querySelector('.success'));
+      } else {
+        onError();
         closeMessage(document.querySelector('.error'));
-      });
-  });
+      }
+    })
+    .catch(() => {
+      onError();
+      closeMessage(document.querySelector('.error'));
+    });
 };
-
-getData();
-sendData();
-
-export {getData, sendData};

@@ -3,8 +3,9 @@ import {removeBlockForm} from './form.js';
 import {fillNoticeElement} from './popup.js';
 
 
-const DEFAULT_LAT_LOCATION = 35.68951;
-const DEFAULT_LNG_LOCATION = 139.69171;
+const DEFAULT_LAT_LOCATION = 35.68770;
+const DEFAULT_LNG_LOCATION = 139.75433;
+const ZOOM_MAP = 12;
 
 const address = document.querySelector('#address');
 
@@ -17,7 +18,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: DEFAULT_LAT_LOCATION,
     lng: DEFAULT_LNG_LOCATION,
-  }, 10);
+  }, ZOOM_MAP);
 
 
 // Отображение карты
@@ -58,7 +59,7 @@ mainPinMarker.on('moveend', (evt) => {
 
 
 // Возвращает метку и карту к исходному состоянию
-const returnMapPinStarting = () => {
+export const returnMapPinStarting = () => {
   mainPinMarker.setLatLng({
     lat: DEFAULT_LAT_LOCATION,
     lng: DEFAULT_LNG_LOCATION,
@@ -67,7 +68,7 @@ const returnMapPinStarting = () => {
   map.setView({
     lat: DEFAULT_LAT_LOCATION,
     lng: DEFAULT_LNG_LOCATION,
-  }, 10);
+  }, ZOOM_MAP);
 
   address.value = `${DEFAULT_LAT_LOCATION}, ${DEFAULT_LNG_LOCATION}`;
 
@@ -79,7 +80,7 @@ const markerGroup = L.layerGroup().addTo(map);
 // Их расположение на карте по полученным данным
 // Показ балуна
 
-const renderMarkers = (data) => {
+export const renderMarkers = (data) => {
   data.forEach((offer) => {
     const lat = offer.location.lat;
     const lng = offer.location.lng;
@@ -102,5 +103,3 @@ const renderMarkers = (data) => {
       .bindPopup(fillNoticeElement(offer));
   });
 };
-
-export {renderMarkers, returnMapPinStarting};
