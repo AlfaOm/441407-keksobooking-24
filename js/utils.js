@@ -15,3 +15,5 @@ export const getRandomFloat = (min, max, fraction = 1) => {
 export const getRandomArrayElement = function (elements) {
   return elements[_.random(0, elements.length - 1)];
 };
+
+export const isEscapeKey = (evt) => evt.key === 'Escape';

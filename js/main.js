@@ -1,11 +1,15 @@
 
-import {getMockAds} from './mock-data.js';
-// import './popup.js';
+// import './map.js';
+import {renderMarkers} from './map.js';
+import {getData} from './api.js';
 
-const data = getMockAds(10);
-window.console.log(data);
+import {showMessageSuccess} from './show-message.js';
+import {showMessageError} from './show-message.js';
+import {setFormSubmit} from './form.js';
 
-import {drawNotices} from './popup.js';
-drawNotices(getMockAds(1));
+const NOTICE_COUNT = 10;
+getData((notices) => {
+  renderMarkers(notices.slice(0, NOTICE_COUNT));
+});
 
-import './form.js';
+setFormSubmit(showMessageSuccess, showMessageError);

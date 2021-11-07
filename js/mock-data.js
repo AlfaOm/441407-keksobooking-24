@@ -43,7 +43,7 @@ const getRandomLocation = function () {
 const createOffer = function () {
   return {
     title: getRandomArrayElement(TITLE),
-    address: `${getRandomLocation().lat} - ${getRandomLocation().lng}`,
+    address: `${getRandomLocation().lat}, ${getRandomLocation().lng}`,
     price: getRandomInteger(1000, 15000),
     type: getRandomArrayElement(TYPE),
     rooms: getRandomInteger(1, 5),

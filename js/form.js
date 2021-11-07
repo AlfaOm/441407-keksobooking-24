@@ -1,3 +1,6 @@
+import {sendData} from './api.js';
+import {returnMapPinStarting} from './map.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -12,7 +15,7 @@ const MIN_PRICE = {
 
 const formNotice = document.querySelector('.ad-form');
 const formFilters = document.querySelector('.map__filters');
-const allFieldset = formNotice.getElementsByTagName('fieldset');
+const allFieldset = Array.from(formNotice.getElementsByTagName('fieldset'));
 const noticeTitleInput = formNotice.querySelector('#title');
 const quantityRoom = formNotice.querySelector('#room_number');
 const quantityCapacity = formNotice.querySelector('#capacity');
@@ -20,12 +23,17 @@ const typeHabitation = formNotice.querySelector('#type');
 const priceInput = formNotice.querySelector('#price');
 const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
+const resetButton = formNotice.querySelector('.ad-form__reset');
+
+//запрет на ручное редактирование поля адрес
+formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
+// formNotice.querySelector('#address').readonly = true;  //не работает
 
 
 // Неактивное состояние форм
 const addBlockForm = () => {
   formNotice.classList.add('ad-form--disabled');
-  formFilters.classList.add('ad-form--disabled');
+  formFilters.classList.add('map__filters--disabled');
   allFieldset.forEach((element) => {
     element.disabled = true;
   });
@@ -33,34 +41,13 @@ const addBlockForm = () => {
 addBlockForm();
 
 // Активация форм
-const removeBlockForm = () => {
+export const removeBlockForm = () => {
   formNotice.classList.remove('ad-form--disabled');
-  formFilters.classList.remove('ad-form--disabled');
+  formFilters.classList.remove('map__filters--disabled');
   allFieldset.forEach((element) => {
     element.disabled = false;
   });
 };
-removeBlockForm();
-
-// Неактивное состояние форм
-// const addBlockForm = () => {
-//   formNotice.classList.add('ad-form--disabled');
-//   formFilters.classList.add('ad-form--disabled');
-//   for (let i = 0; i < allFieldset.length; i++) {
-//     allFieldset[i].disabled = true;
-//   }
-// };
-// addBlockForm();
-
-// // Активация форм
-// const removeBlockForm = () => {
-//   formNotice.classList.remove('ad-form--disabled');
-//   formFilters.classList.remove('ad-form--disabled');
-//   for (let i = 0; i < allFieldset.length; i++) {
-//     allFieldset[i].disabled = false;
-//   }
-// };
-// removeBlockForm();
 
 
 // Валидация заголовка объявления
@@ -95,7 +82,6 @@ quantityRoom.addEventListener('change', (evt) => {
 
 
 // Валидация цены за ночь по типу жилья
-
 typeHabitation.addEventListener('change', (evt) => {
   const minPrice = MIN_PRICE[evt.target.value];
   priceInput.min = minPrice;
@@ -111,3 +97,25 @@ timeIn.addEventListener('change', (evt) => {
 timeOut.addEventListener('change', (evt) => {
   timeIn.value = evt.target.value;
 });
+
+
+export const setFormSubmit = (onSuccess, onError) => {
+  formNotice.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    sendData(
+      () => onSuccess(),
+      () => onError(),
+      formData,
+      evt.target.reset(),
+      returnMapPinStarting(),
+    );
+  });
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  returnMapPinStarting();
+});
+
