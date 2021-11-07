@@ -11,7 +11,7 @@ const TYPE_NAME = {
 };
 
 
-export const fillNoticeElement = ({offer, author}) => {
+export const createCardNotice = ({offer, author}) => {
   const noticeElement = cardTemplate.cloneNode(true);
 
   noticeElement.querySelector('.popup__title').textContent = offer.title;

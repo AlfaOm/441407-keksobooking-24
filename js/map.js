@@ -1,6 +1,6 @@
 
 import {removeBlockForm} from './form.js';
-import {fillNoticeElement} from './popup.js';
+import {createCardNotice} from './popup.js';
 
 
 const DEFAULT_LAT_LOCATION = 35.68770;
@@ -100,6 +100,6 @@ export const renderMarkers = (data) => {
     );
     marker
       .addTo(markerGroup)
-      .bindPopup(fillNoticeElement(offer));
+      .bindPopup(createCardNotice(offer));
   });
 };

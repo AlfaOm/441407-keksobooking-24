@@ -105,10 +105,9 @@ export const setFormSubmit = (onSuccess, onError) => {
     const formData = new FormData(evt.target);
 
     sendData(
-      () => onSuccess(),
+      () => onSuccess(evt.target.reset()),
       () => onError(),
       formData,
-      evt.target.reset(),
       returnMapPinStarting(),
     );
   });
