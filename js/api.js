@@ -9,7 +9,7 @@ export const getData = (onSuccess) => {
       if (responce.ok) {
         return responce;
       }
-      throw new Error(createMessageError('Не удалось загрузить данные с сервера!!!'));
+      throw new Error(createMessageError());
     })
     .then((response) => response.json())
     .then((notices) => {

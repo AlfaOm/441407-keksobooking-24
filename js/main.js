@@ -1,5 +1,4 @@
 
-// import './map.js';
 import {renderMarkers} from './map.js';
 import {getData} from './api.js';
 

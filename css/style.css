@@ -1007,6 +1007,26 @@ fieldset {
   opacity: 0.6;
 }
 
+.error-load-server {
+  position: absolute;
+  top: 700px;
+  right: 0;
+  left: 25%;
+  width: 1000px;
+  padding: 70px 10px;
+  background-color: #ff0303;
+  opacity: 0.6;
+  border-radius: 20px;
+}
+
+.error-load-server__message {
+  font-size: 50px;
+  font-weight: 600;
+  font-family: "Arial", "Roboto", sans-serif;
+  color: #ffffff;
+  text-align: center;
+}
+
 .visually-hidden {
   position: absolute;
 
