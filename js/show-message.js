@@ -1,4 +1,4 @@
-import {returnMapPinStarting} from './map.js';
+// import {returnMapPinStarting} from './map.js';
 import {isEscapeKey} from './utils.js';
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -26,7 +26,7 @@ export const showMessageError = () => {
 
 export const closeMessage = (modal) => {
   document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey) {
+    if (isEscapeKey(evt)) {
       evt.preventDefault();
       modal.remove();
     }
@@ -35,12 +35,10 @@ export const closeMessage = (modal) => {
   window.addEventListener('click', () => {
     modal.remove();
   });
-
-  returnMapPinStarting();
 };
 
 
-// Закрытие сообщений
+// Закрытие сообщения
 closeButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   closeMessage();
