@@ -27,7 +27,6 @@ const resetButton = formNotice.querySelector('.ad-form__reset');
 
 //запрет на ручное редактирование поля адрес
 formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
-// formNotice.querySelector('#address').readonly = true;  //не работает
 
 
 // Неактивное состояние форм
@@ -108,8 +107,6 @@ export const setFormSubmit = (onSuccess, onError) => {
       () => onSuccess(evt.target.reset(), returnMapPinStarting()),
       () => onError(),
       formData,
-      // evt.target.reset(),
-      // returnMapPinStarting(),
     );
   });
 };

@@ -76,6 +76,7 @@ export const returnMapPinStarting = () => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
+
 // Отображение меток объявлений
 // Их расположение на карте по полученным данным
 // Показ балуна
@@ -103,3 +104,5 @@ export const renderMarkers = (data) => {
       .bindPopup(createCardNotice(offer));
   });
 };
+
+export const clearMarkers = () => markerGroup.clearLayers();
