@@ -2,7 +2,6 @@
 import {removeBlockForm} from './form.js';
 import {createCardNotice} from './popup.js';
 
-
 const DEFAULT_LAT_LOCATION = 35.68770;
 const DEFAULT_LNG_LOCATION = 139.75433;
 const ZOOM_MAP = 12;
@@ -58,22 +57,6 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 
-// Возвращает метку и карту к исходному состоянию
-export const returnMapPinStarting = () => {
-  mainPinMarker.setLatLng({
-    lat: DEFAULT_LAT_LOCATION,
-    lng: DEFAULT_LNG_LOCATION,
-  });
-
-  map.setView({
-    lat: DEFAULT_LAT_LOCATION,
-    lng: DEFAULT_LNG_LOCATION,
-  }, ZOOM_MAP);
-
-  address.value = `${DEFAULT_LAT_LOCATION}, ${DEFAULT_LNG_LOCATION}`;
-
-};
-
 const markerGroup = L.layerGroup().addTo(map);
 
 
@@ -106,3 +89,22 @@ export const renderMarkers = (data) => {
 };
 
 export const clearMarkers = () => markerGroup.clearLayers();
+
+
+// Возвращает метку и карту к исходному состоянию
+export const returnMapPinStarting = () => {
+  mainPinMarker.setLatLng({
+    lat: DEFAULT_LAT_LOCATION,
+    lng: DEFAULT_LNG_LOCATION,
+  });
+
+  map.setView({
+    lat: DEFAULT_LAT_LOCATION,
+    lng: DEFAULT_LNG_LOCATION,
+  }, ZOOM_MAP);
+
+  map.closePopup();
+
+  address.value = `${DEFAULT_LAT_LOCATION}, ${DEFAULT_LNG_LOCATION}`;
+
+};

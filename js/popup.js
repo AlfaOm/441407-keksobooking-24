@@ -2,7 +2,7 @@
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 
-const TYPE_NAME = {
+const TypeName = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -17,7 +17,7 @@ export const createCardNotice = ({offer, author}) => {
   noticeElement.querySelector('.popup__title').textContent = offer.title;
   noticeElement.querySelector('.popup__text--address').textContent = offer.address;
   noticeElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  noticeElement.querySelector('.popup__type').textContent = TYPE_NAME[offer.type];
+  noticeElement.querySelector('.popup__type').textContent = TypeName[offer.type];
   noticeElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   noticeElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   noticeElement.querySelector('.popup__features').innerHTML = '';
