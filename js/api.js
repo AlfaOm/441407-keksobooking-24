@@ -17,7 +17,6 @@ export const getData = () => {
     .then((notices) => {
       renderMarkers(notices.slice(0, 10));
       setMapFilters(notices);
-      // onSuccess(notices);
     });
 };
 

@@ -10,14 +10,13 @@ const errorLoadServerTemplate = document.querySelector('#error-load-server').con
 
 const ALERT_SHOW_TIME = 5000;
 
-// Сообщение об успешном создании объявления
+
 export const showMessageSuccess = () => {
   const successElement = successTemplate.cloneNode(true);
   document.body.append(successElement);
 };
 
 
-// Сообщение об ошибке создания объявления
 export const showMessageError = () => {
   const errorElement = errorTemplate.cloneNode(true);
   document.body.append(errorElement);
@@ -42,14 +41,12 @@ export const closeMessage = (modal) => {
 };
 
 
-// Закрытие сообщения
 closeButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   closeMessage();
 });
 
 
-// Неудачная загрузка данных с сервера
 export const createMessageError = () => {
   const messageContainer = errorLoadServerTemplate.cloneNode(true);
   document.body.append(messageContainer);

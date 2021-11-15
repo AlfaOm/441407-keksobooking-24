@@ -27,11 +27,9 @@ const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
 const resetButton = formNotice.querySelector('.ad-form__reset');
 
-//запрет на ручное редактирование поля адрес
 formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
 
 
-// Неактивное состояние форм
 const addBlockForm = () => {
   formNotice.classList.add('ad-form--disabled');
   allFieldset.forEach((element) => {
@@ -42,7 +40,7 @@ const addBlockForm = () => {
 };
 addBlockForm();
 
-// Активация форм
+
 export const removeBlockForm = () => {
   formNotice.classList.remove('ad-form--disabled');
   allFieldset.forEach((element) => {
@@ -53,7 +51,6 @@ export const removeBlockForm = () => {
 };
 
 
-// Валидация заголовка объявления
 noticeTitleInput.addEventListener('input', () => {
   const valueLength = noticeTitleInput.value.length;
 
@@ -69,7 +66,6 @@ noticeTitleInput.addEventListener('input', () => {
 });
 
 
-// Валидация кол-ва комнат и кол-ва гостей
 quantityRoom.addEventListener('change', (evt) => {
   const choosenValue = (evt.target.value === '100') ? '0' : evt.target.value;
   for (let i = 0; i < quantityCapacity.length; i++) {
@@ -84,7 +80,6 @@ quantityRoom.addEventListener('change', (evt) => {
 });
 
 
-// Валидация цены за ночь по типу жилья
 typeHabitation.addEventListener('change', (evt) => {
   const minPrice = MinPrice[evt.target.value];
   priceInput.min = minPrice;
@@ -92,7 +87,6 @@ typeHabitation.addEventListener('change', (evt) => {
 });
 
 
-// Синхронизация времени заезда и выезда
 timeIn.addEventListener('change', (evt) => {
   timeOut.value = evt.target.value;
 });

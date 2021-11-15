@@ -8,10 +8,10 @@ const ZOOM_MAP = 12;
 
 const address = document.querySelector('#address');
 
-// Создание карты. Центр и масштаб карты
+
 const map = L.map('map-canvas')
   .on('load', () => {
-    removeBlockForm(); // Активация форм при инициализации карты
+    removeBlockForm();
     address.value = `${DEFAULT_LAT_LOCATION}, ${DEFAULT_LNG_LOCATION}`;
   })
   .setView({
@@ -20,7 +20,6 @@ const map = L.map('map-canvas')
   }, ZOOM_MAP);
 
 
-// Отображение карты
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -28,15 +27,14 @@ L.tileLayer(
   },
 ).addTo(map);
 
-// Отображение основной метки
+
 const mainPinIcon = L.icon ({
   iconUrl: 'img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
-// Добавление метки на карту
-// Исходное состояние метки и возможность её перемещения
+
 const mainPinMarker = L.marker(
   {
     lat: DEFAULT_LAT_LOCATION,
@@ -50,7 +48,6 @@ const mainPinMarker = L.marker(
 mainPinMarker.addTo(map);
 
 
-// Обработчик событий метки. Возвращает новые координаты
 mainPinMarker.on('moveend', (evt) => {
   const mainPinLocation = evt.target.getLatLng();
   address.value = `${mainPinLocation.lat.toFixed(5)}, ${mainPinLocation.lng.toFixed(5)}`;
@@ -59,10 +56,6 @@ mainPinMarker.on('moveend', (evt) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-
-// Отображение меток объявлений
-// Их расположение на карте по полученным данным
-// Показ балуна
 
 export const renderMarkers = (data) => {
   data.forEach((offer) => {
@@ -91,7 +84,6 @@ export const renderMarkers = (data) => {
 export const clearMarkers = () => markerGroup.clearLayers();
 
 
-// Возвращает метку и карту к исходному состоянию
 export const returnMapPinStarting = () => {
   mainPinMarker.setLatLng({
     lat: DEFAULT_LAT_LOCATION,
