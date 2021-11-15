@@ -2,8 +2,10 @@
 import {closeMessage} from './show-message.js';
 import {createMessageError} from './show-message.js';
 
+import {renderMarkers} from './map.js';
+import {setMapFilters} from './map-filters.js';
 
-export const getData = (onSuccess) => {
+export const getData = () => {
   fetch('https://24.javascript.pages.academy/keksobooking/data')
     .then((responce) => {
       if (responce.ok) {
@@ -13,7 +15,9 @@ export const getData = (onSuccess) => {
     })
     .then((response) => response.json())
     .then((notices) => {
-      onSuccess(notices);
+      renderMarkers(notices.slice(0, 10));
+      setMapFilters(notices);
+      // onSuccess(notices);
     });
 };
 

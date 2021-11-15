@@ -1,10 +1,12 @@
 import {sendData} from './api.js';
 import {returnMapPinStarting} from './map.js';
+import {removeAvatarFoto} from './add-avatar-foto.js';
+import {resetMapFilterForm} from './map-filters.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
-const MIN_PRICE = {
+const MinPrice = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
@@ -14,7 +16,7 @@ const MIN_PRICE = {
 
 
 const formNotice = document.querySelector('.ad-form');
-const formFilters = document.querySelector('.map__filters');
+const mapFiltersForm = document.querySelector('.map__filters');
 const allFieldset = Array.from(formNotice.getElementsByTagName('fieldset'));
 const noticeTitleInput = formNotice.querySelector('#title');
 const quantityRoom = formNotice.querySelector('#room_number');
@@ -27,26 +29,27 @@ const resetButton = formNotice.querySelector('.ad-form__reset');
 
 //запрет на ручное редактирование поля адрес
 formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
-// formNotice.querySelector('#address').readonly = true;  //не работает
 
 
 // Неактивное состояние форм
 const addBlockForm = () => {
   formNotice.classList.add('ad-form--disabled');
-  formFilters.classList.add('map__filters--disabled');
   allFieldset.forEach((element) => {
     element.disabled = true;
   });
+  mapFiltersForm.classList.add('map__filters--disabled');
+  mapFiltersForm.disabled = true;
 };
 addBlockForm();
 
 // Активация форм
 export const removeBlockForm = () => {
   formNotice.classList.remove('ad-form--disabled');
-  formFilters.classList.remove('map__filters--disabled');
   allFieldset.forEach((element) => {
     element.disabled = false;
   });
+  mapFiltersForm.classList.remove('map__filters--disabled');
+  mapFiltersForm.disabled = false;
 };
 
 
@@ -83,7 +86,7 @@ quantityRoom.addEventListener('change', (evt) => {
 
 // Валидация цены за ночь по типу жилья
 typeHabitation.addEventListener('change', (evt) => {
-  const minPrice = MIN_PRICE[evt.target.value];
+  const minPrice = MinPrice[evt.target.value];
   priceInput.min = minPrice;
   priceInput.placeholder = minPrice.toString();
 });
@@ -108,14 +111,18 @@ export const setFormSubmit = (onSuccess, onError) => {
       () => onSuccess(evt.target.reset(), returnMapPinStarting()),
       () => onError(),
       formData,
-      // evt.target.reset(),
-      // returnMapPinStarting(),
+      resetMapFilterForm(),
     );
   });
 };
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
+  formNotice.reset();
   returnMapPinStarting();
+  removeAvatarFoto();
+  resetMapFilterForm();
+  priceInput.placeholder = MinPrice.flat;
 });
 
+export {mapFiltersForm};

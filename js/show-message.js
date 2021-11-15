@@ -1,5 +1,7 @@
-// import {returnMapPinStarting} from './map.js';
+
 import {isEscapeKey} from './utils.js';
+import {removeAvatarFoto} from './add-avatar-foto.js';
+import {resetMapFilterForm} from './map-filters.js';
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -9,7 +11,6 @@ const errorLoadServerTemplate = document.querySelector('#error-load-server').con
 const ALERT_SHOW_TIME = 5000;
 
 // Сообщение об успешном создании объявления
-
 export const showMessageSuccess = () => {
   const successElement = successTemplate.cloneNode(true);
   document.body.append(successElement);
@@ -17,7 +18,6 @@ export const showMessageSuccess = () => {
 
 
 // Сообщение об ошибке создания объявления
-
 export const showMessageError = () => {
   const errorElement = errorTemplate.cloneNode(true);
   document.body.append(errorElement);
@@ -29,10 +29,14 @@ export const closeMessage = (modal) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       modal.remove();
+      removeAvatarFoto();
+      resetMapFilterForm();
     }
   });
 
-  window.addEventListener('click', () => {
+  modal.addEventListener('click', () => {
+    removeAvatarFoto();
+    resetMapFilterForm();
     modal.remove();
   });
 };
