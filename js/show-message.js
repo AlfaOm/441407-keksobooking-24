@@ -1,5 +1,3 @@
-
-import {isEscapeKey} from './utils.js';
 import {removeAvatarFoto} from './add-avatar-foto.js';
 import {resetMapFilterForm} from './map-filters.js';
 
@@ -9,6 +7,32 @@ const closeButton = errorTemplate.querySelector('.error__button');
 const errorLoadServerTemplate = document.querySelector('#error-load-server').content.querySelector('.error-load-server');
 
 const ALERT_SHOW_TIME = 5000;
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+
+export const closeMessage = (modal) => {
+  const removeMessage = () => {
+    modal.remove();
+    document.removeEventListener('keydown', onEscKeydown);
+    window.removeEventListener('click', onModalClick);
+  };
+  function onEscKeydown (evt) {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      removeMessage();
+      removeAvatarFoto();
+      resetMapFilterForm();
+    }
+  }
+  function onModalClick () {
+    removeMessage();
+    removeAvatarFoto();
+    resetMapFilterForm();
+  }
+  document.addEventListener('keydown', onEscKeydown);
+  window.addEventListener('click', onModalClick);
+};
 
 
 export const showMessageSuccess = () => {
@@ -23,24 +47,6 @@ export const showMessageError = () => {
 };
 
 
-export const closeMessage = (modal) => {
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      modal.remove();
-      removeAvatarFoto();
-      resetMapFilterForm();
-    }
-  });
-
-  modal.addEventListener('click', () => {
-    removeAvatarFoto();
-    resetMapFilterForm();
-    modal.remove();
-  });
-};
-
-
 closeButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   closeMessage();
@@ -48,8 +54,9 @@ closeButton.addEventListener('click', (evt) => {
 
 
 export const createMessageError = () => {
+  const body = document.querySelector('body');
   const messageContainer = errorLoadServerTemplate.cloneNode(true);
-  document.body.append(messageContainer);
+  body.append(messageContainer);
 
   setTimeout(() => {
     messageContainer.remove();

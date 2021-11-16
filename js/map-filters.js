@@ -1,8 +1,8 @@
 import {renderMarkers, clearMarkers} from './map.js';
 import {debounce} from './utils/debounce.js';
-import {mapFiltersForm} from './form.js';
 
-
+const mapFiltersForm = document.querySelector('.map__filters');
+const mapFiltersElements = Array.from(mapFiltersForm.children);
 const housingType = mapFiltersForm.querySelector('#housing-type');
 const housingPrice = mapFiltersForm.querySelector('#housing-price');
 const housingRooms = mapFiltersForm.querySelector('#housing-rooms');
@@ -17,6 +17,23 @@ const HousingPriceName = {
   low: 'low',
   middle: 'middle',
   high: 'high',
+};
+
+export const MAX_COUNT_MARKERS = 10;
+
+const addBlockFiltersForm = () => {
+  mapFiltersForm.classList.add('map__filters--disabled');
+  mapFiltersElements.forEach((element) => {
+    element.disabled = true;
+  });
+};
+addBlockFiltersForm();
+
+export const removeBlockFiltersForm = () => {
+  mapFiltersForm.classList.remove('map__filters--disabled');
+  mapFiltersElements.forEach((element) => {
+    element.disabled = false;
+  });
 };
 
 
@@ -53,11 +70,10 @@ export const setMapFilters = (offer) => {
       && selectHousingGuests(item)
       && selectHousingFeatures(item));
     clearMarkers();
-    renderMarkers(selectOffers.slice(0, 10));
+    renderMarkers(selectOffers.slice(0, MAX_COUNT_MARKERS));
   },
   ));
 };
-
 
 export const resetMapFilterForm = () => {
   mapFiltersForm.reset();

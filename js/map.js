@@ -1,8 +1,9 @@
 
 import {removeBlockForm} from './form.js';
 import {createCardNotice} from './popup.js';
+import {getData} from './api.js';
 
-const DEFAULT_LAT_LOCATION = 35.68770;
+const DEFAULT_LAT_LOCATION = 35.68772;
 const DEFAULT_LNG_LOCATION = 139.75433;
 const ZOOM_MAP = 12;
 
@@ -12,6 +13,7 @@ const address = document.querySelector('#address');
 const map = L.map('map-canvas')
   .on('load', () => {
     removeBlockForm();
+    getData();
     address.value = `${DEFAULT_LAT_LOCATION}, ${DEFAULT_LNG_LOCATION}`;
   })
   .setView({

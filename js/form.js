@@ -1,7 +1,7 @@
 import {sendData} from './api.js';
-import {returnMapPinStarting} from './map.js';
+import {returnMapPinStarting, renderMarkers, clearMarkers} from './map.js';
 import {removeAvatarFoto} from './add-avatar-foto.js';
-import {resetMapFilterForm} from './map-filters.js';
+import {resetMapFilterForm, MAX_COUNT_MARKERS} from './map-filters.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -16,18 +16,15 @@ const MinPrice = {
 
 
 const formNotice = document.querySelector('.ad-form');
-const mapFiltersForm = document.querySelector('.map__filters');
 const allFieldset = Array.from(formNotice.getElementsByTagName('fieldset'));
 const noticeTitleInput = formNotice.querySelector('#title');
 const quantityRoom = formNotice.querySelector('#room_number');
-const quantityCapacity = formNotice.querySelector('#capacity');
+const quantityCapacity = Array.from(formNotice.querySelector('#capacity'));
 const typeHabitation = formNotice.querySelector('#type');
 const priceInput = formNotice.querySelector('#price');
 const timeIn = formNotice.querySelector('#timein');
 const timeOut = formNotice.querySelector('#timeout');
 const resetButton = formNotice.querySelector('.ad-form__reset');
-
-formNotice.querySelector('#address').setAttribute('readonly', 'readonly');
 
 
 const addBlockForm = () => {
@@ -35,8 +32,6 @@ const addBlockForm = () => {
   allFieldset.forEach((element) => {
     element.disabled = true;
   });
-  mapFiltersForm.classList.add('map__filters--disabled');
-  mapFiltersForm.disabled = true;
 };
 addBlockForm();
 
@@ -46,8 +41,6 @@ export const removeBlockForm = () => {
   allFieldset.forEach((element) => {
     element.disabled = false;
   });
-  mapFiltersForm.classList.remove('map__filters--disabled');
-  mapFiltersForm.disabled = false;
 };
 
 
@@ -68,15 +61,15 @@ noticeTitleInput.addEventListener('input', () => {
 
 quantityRoom.addEventListener('change', (evt) => {
   const choosenValue = (evt.target.value === '100') ? '0' : evt.target.value;
-  for (let i = 0; i < quantityCapacity.length; i++) {
-    quantityCapacity[i].disabled = true;
-    if (quantityCapacity[i].value === choosenValue) {
-      quantityCapacity[i].disabled = false;
+  quantityCapacity.forEach((element) => {
+    element.disabled = true;
+    if (element.value === choosenValue) {
+      element.disabled = false;
     }
-    if (quantityCapacity[i].value <= choosenValue && quantityCapacity[i].value > 0) {
-      quantityCapacity[i].disabled = false;
+    if (element.value <= choosenValue && element.value > 0) {
+      element.disabled = false;
     }
-  }
+  });
 });
 
 
@@ -99,24 +92,33 @@ timeOut.addEventListener('change', (evt) => {
 export const setFormSubmit = (onSuccess, onError) => {
   formNotice.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
 
     sendData(
       () => onSuccess(evt.target.reset(), returnMapPinStarting()),
       () => onError(),
-      formData,
+      new FormData(evt.target),
       resetMapFilterForm(),
+      priceInput.placeholder = MinPrice.flat,
     );
   });
 };
 
+const clearDefaultForms = (offers) => {
+  resetMapFilterForm();
+  clearMarkers();
+  renderMarkers(offers.slice(0, MAX_COUNT_MARKERS));
+};
+
+let defaultData;
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   formNotice.reset();
   returnMapPinStarting();
   removeAvatarFoto();
-  resetMapFilterForm();
   priceInput.placeholder = MinPrice.flat;
+  clearDefaultForms(defaultData);
 });
 
-export {mapFiltersForm};
+export const returnDefaultData = (data) => {
+  defaultData = data;
+};

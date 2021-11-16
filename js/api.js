@@ -1,12 +1,15 @@
 
-import {closeMessage} from './show-message.js';
-import {createMessageError} from './show-message.js';
+import {closeMessage, createMessageError} from './show-message.js';
 
 import {renderMarkers} from './map.js';
-import {setMapFilters} from './map-filters.js';
+import {setMapFilters, MAX_COUNT_MARKERS} from './map-filters.js';
+import {removeBlockFiltersForm} from './map-filters.js';
+import {returnDefaultData} from './form.js';
+
+const URL_SERVER = 'https://24.javascript.pages.academy/keksobooking';
 
 export const getData = () => {
-  fetch('https://24.javascript.pages.academy/keksobooking/data')
+  fetch(`${URL_SERVER}/data`)
     .then((responce) => {
       if (responce.ok) {
         return responce;
@@ -15,19 +18,21 @@ export const getData = () => {
     })
     .then((response) => response.json())
     .then((notices) => {
-      renderMarkers(notices.slice(0, 10));
+      renderMarkers(notices.slice(0, MAX_COUNT_MARKERS));
       setMapFilters(notices);
+      returnDefaultData(notices);
+      removeBlockFiltersForm();
     });
 };
 
 export const sendData = (onSuccess, onError, body) => {
 
-  fetch('https://24.javascript.pages.academy/keksobooking', {
+  fetch(URL_SERVER, {
     method: 'POST',
     body,
   })
-    .then((responce) => {
-      if (responce.ok) {
+    .then((response) => {
+      if (response.ok) {
         onSuccess();
         closeMessage(document.querySelector('.success'));
       } else {
