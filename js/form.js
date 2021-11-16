@@ -14,12 +14,15 @@ const MinPrice = {
   palace: 10000,
 };
 
+const MAX_NUMBER_ROOMS = 100;
+const MIN_NUMBER_CAPACITY = 0;
+
 
 const formNotice = document.querySelector('.ad-form');
 const allFieldset = Array.from(formNotice.getElementsByTagName('fieldset'));
 const noticeTitleInput = formNotice.querySelector('#title');
 const quantityRoom = formNotice.querySelector('#room_number');
-const quantityCapacity = Array.from(formNotice.querySelector('#capacity'));
+const quantityCapacity = formNotice.querySelector('#capacity');
 const typeHabitation = formNotice.querySelector('#type');
 const priceInput = formNotice.querySelector('#price');
 const timeIn = formNotice.querySelector('#timein');
@@ -59,9 +62,28 @@ noticeTitleInput.addEventListener('input', () => {
 });
 
 
+const changeRoomCapacity = () => {
+  const numberRooms = +quantityRoom.value;
+  const numberCapacity = +quantityCapacity.value;
+  quantityCapacity.style.boxShadow = '0 2px 4px 4px #ff0303';
+  if (numberRooms < numberCapacity) {
+    quantityCapacity.setCustomValidity('Значение превышает кол-во комнат');
+  } else if (numberRooms === MAX_NUMBER_ROOMS && numberCapacity !== MIN_NUMBER_CAPACITY) {
+    quantityCapacity.setCustomValidity('100 комнат только "не для гостей"');
+  } else if (numberRooms !== MAX_NUMBER_ROOMS && numberCapacity === MIN_NUMBER_CAPACITY) {
+    quantityCapacity.setCustomValidity('"не для гостей" только для 100 комнат');
+  } else {
+    quantityCapacity.setCustomValidity('');
+    quantityCapacity.style.boxShadow = '';
+  }
+  quantityCapacity.reportValidity();
+};
+
 quantityRoom.addEventListener('change', (evt) => {
+  changeRoomCapacity();
   const choosenValue = (evt.target.value === '100') ? '0' : evt.target.value;
-  quantityCapacity.forEach((element) => {
+  const valueCapacity = Array.from(quantityCapacity);
+  valueCapacity.forEach((element) => {
     element.disabled = true;
     if (element.value === choosenValue) {
       element.disabled = false;
@@ -71,6 +93,8 @@ quantityRoom.addEventListener('change', (evt) => {
     }
   });
 });
+
+quantityCapacity.addEventListener('change', changeRoomCapacity);
 
 
 typeHabitation.addEventListener('change', (evt) => {

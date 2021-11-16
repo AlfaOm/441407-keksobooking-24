@@ -10,9 +10,9 @@ const URL_SERVER = 'https://24.javascript.pages.academy/keksobooking';
 
 export const getData = () => {
   fetch(`${URL_SERVER}/data`)
-    .then((responce) => {
-      if (responce.ok) {
-        return responce;
+    .then((response) => {
+      if (response.ok) {
+        return response;
       }
       throw new Error(createMessageError());
     })
