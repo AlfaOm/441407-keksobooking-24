@@ -113,21 +113,7 @@ timeOut.addEventListener('change', (evt) => {
 });
 
 
-export const setFormSubmit = (onSuccess, onError) => {
-  formNotice.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    sendData(
-      () => onSuccess(evt.target.reset(), returnMapPinStarting()),
-      () => onError(),
-      new FormData(evt.target),
-      resetMapFilterForm(),
-      priceInput.placeholder = MinPrice.flat,
-    );
-  });
-};
-
-const clearDefaultForms = (offers) => {
+export const clearDefaultForms = (offers) => {
   resetMapFilterForm();
   clearMarkers();
   renderMarkers(offers.slice(0, MAX_COUNT_MARKERS));
@@ -145,4 +131,20 @@ resetButton.addEventListener('click', (evt) => {
 
 export const returnDefaultData = (data) => {
   defaultData = data;
+};
+
+
+export const setFormSubmit = (onSuccess, onError) => {
+  formNotice.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    clearDefaultForms(defaultData);
+
+    sendData(
+      () => onSuccess(evt.target.reset(), returnMapPinStarting()),
+      () => onError(),
+      new FormData(evt.target),
+      resetMapFilterForm(),
+      priceInput.placeholder = MinPrice.flat,
+    );
+  });
 };
